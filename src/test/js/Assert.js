@@ -290,8 +290,9 @@
          */
         isImplemented : function(inter, object, message)
         {
-            var implemented = true;
+            Y.Assert._increment();
             
+            var implemented = true;            
             for(var i = 0; i < inter.length && implemented; i++)
             {
                 if(typeof object[inter[i]] !== "function")
@@ -299,8 +300,9 @@
                     implemented = false;
                 }               
             }
-            
-            if (!implemented) {
+                        
+            if (!implemented) {                
+                //creates array of strings containing object's method names
                 var expected = inter;
                 var actual = [];
                 for(var key in object)

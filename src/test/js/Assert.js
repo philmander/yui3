@@ -278,7 +278,42 @@
             if (!Y.Lang.isUndefined(actual)) {
                 throw new Y.Assert.ComparisonFailure(Y.Assert._formatMessage(message, "Value should be undefined."), undefined, actual);
             }
-        },    
+        },   
+        
+        /**
+         * Asserts that an object implements all the functions defined in the interface
+         * @param {Object} inter The interface to test against. An array of function names
+         * @param {Object} object The value to test
+         * @param {String} message (Optional) The message to display if the assertion fails.
+         * @method isImplemented
+         * @static
+         */
+        isImplemented : function(inter, object, message)
+        {
+            var implemented = true;
+            
+            for(var i = 0; i < inter.length && implemented; i++)
+            {
+                if(typeof object[inter[i]] !== "function")
+                {
+                    implemented = false;
+                }               
+            }
+            
+            if (!implemented) {
+                var expected = inter;
+                var actual = [];
+                for(var key in object)
+                {
+                    if(typeof object[key] === "function")
+                    {
+                        actual.push(key);    
+                    }
+                }
+                
+                throw new Y.Assert.ComparisonFailure(Y.Assert._formatMessage(message, "Interface is not implemented"), expected, actual);
+            }
+        },
         
         //--------------------------------------------------------------------------
         // Instance Assertion Methods
